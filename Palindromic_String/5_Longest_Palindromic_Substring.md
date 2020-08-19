@@ -52,6 +52,21 @@ for(int i = 0; i < len-1 && i*2 >= result.length() && (len-i)*2 >= result.length
 ```
 
 Another iterative approach
+
+Refer to: [https://leetcode.com/problems/longest-palindromic-substring/discuss/3060/(AC)-relatively-short-and-very-clear-Java-solution](https://leetcode.com/problems/longest-palindromic-substring/discuss/3060/(AC)-relatively-short-and-very-clear-Java-solution)
+```
+Example: "xxxbcbxxxxxa", (x is random character, not all x are equal) now we 
+          are dealing with the last character 'a'. The current longest palindrome
+          is "bcb" with length 3.
+1. check "xxxxa" so if it is palindrome we could get a new palindrome of length 5.
+2. check "xxxa" so if it is palindrome we could get a new palindrome of length 4.
+3. do NOT check "xxa" or any shorter string since the length of the new string is 
+   no bigger than current longest length.
+4. do NOT check "xxxxxa" or any longer string because if "xxxxxa" is palindrome 
+   then "xxxx" got  from cutting off the head and tail is also palindrom. It has 
+   length > 3 which is impossible.'
+```
+
 ```
 class Solution {
     
