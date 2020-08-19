@@ -13,7 +13,7 @@ Given a string **s**, find the longest palindromic substring in **s**. You may a
 **Input:** "cbbd"
 **Output:** "bb"
 
-# Solution 1: Recursion (Beat 62%)
+# Solution 1: Two Iterative Methods
 ```
 public class Solution {
     
@@ -50,7 +50,8 @@ for(int i = 0; i < len-1 && i*2 >= result.length() && (len-i)*2 >= result.length
     check_palindromic(i,i+1,s);
 }
 ```
-# Solution 2: Iteration
+
+Another iterative approach
 ```
 class Solution {
     
@@ -84,7 +85,7 @@ class Solution {
 }
 ```
 
-# Solution 3: Manacher's Algorithm (Beat 98%)
+# Solution 2: Manacher's Algorithm (Beat 98%)
 ### Initial Idea 
 Time Complexity O($n^2$), Space O($n$) 
 ```
