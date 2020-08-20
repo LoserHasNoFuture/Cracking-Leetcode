@@ -96,11 +96,11 @@ class Solution {
                     stack.pop();
                     res.add(cur.val);
                     prev = cur;
-                    cur = null;
+                    cur = null;        
                 }
             }
         }
-      
+        
         return res;    
     }  
 }
