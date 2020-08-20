@@ -43,7 +43,7 @@ public class Solution {
 ```
 
 # Solution 2: Sorting and Using Two pointers
-With no binary search:
+Without binary search:
 ```
 class Solution {
     public int[] intersection(int[] nums1, int[] nums2) {
