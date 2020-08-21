@@ -78,3 +78,17 @@ class Solution {
 }
 ```
 
+# Solution 3: Newton's Method
+```
+class Solution {
+    public boolean isPerfectSquare(int num) {
+        if(num <=1) return true;
+        int temp = num/2;
+        while(temp > num/temp){
+            temp = (temp + num/temp)/2;
+        }
+        
+        return (temp*temp == num);
+    }
+}
+```
