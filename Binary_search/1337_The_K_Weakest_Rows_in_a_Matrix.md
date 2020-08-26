@@ -122,6 +122,11 @@ class Solution {
 
 # Solution 3: Calculating Score (COOL!!)
 Refer from: [https://leetcode.com/problems/the-k-weakest-rows-in-a-matrix/discuss/560163/Simple-Solution-In-Java](https://leetcode.com/problems/the-k-weakest-rows-in-a-matrix/discuss/560163/Simple-Solution-In-Java)
+
+### This kind of score calculating can only be applied when:
+###     1.all numbers are positive
+###     2.overflow
+
 ```
 class Solution {
     public int[] kWeakestRows(int[][] mat, int k) {
