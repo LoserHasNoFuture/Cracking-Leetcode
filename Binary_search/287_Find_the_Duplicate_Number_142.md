@@ -1,4 +1,4 @@
-# 287. Find the Duplicate Number (Similar to 142)
+# 287. Find the Duplicate Number
 Given an array  _nums_  containing  _n_  + 1 integers where each integer is between 1 and  _n_  (inclusive), prove that at least one duplicate number must exist. Assume that there is only one duplicate number, find the duplicate one.
 
 **Example 1:**
