@@ -1,4 +1,4 @@
-# 33. Search in Rotated Sorted Array 153
+# 33. Search in Rotated Sorted Array 81 153 154
 Given an integer array  `nums`  sorted in ascending order, and an integer  `target`.
 
 Suppose that  `nums`  is rotated at some pivot unknown to you beforehand (i.e.,  `[0,1,2,4,5,6,7]`  might become  `[4,5,6,7,0,1,2]`).
