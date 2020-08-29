@@ -124,7 +124,7 @@ class Solution {
 Refer from: [https://leetcode.com/problems/the-k-weakest-rows-in-a-matrix/discuss/560163/Simple-Solution-In-Java](https://leetcode.com/problems/the-k-weakest-rows-in-a-matrix/discuss/560163/Simple-Solution-In-Java)
 
 ### This kind of score calculating can only be applied when:
-###     1.all numbers are positive
+###     1.all numbers are positive.  If not, handle them specially, see problem 436. Find Right Interval
 ###     2.overflow
 
 ```
