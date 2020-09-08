@@ -53,7 +53,7 @@ class Solution {
 }
 ```
 
-# Solution 3: Bit Manipulation (>-<!! )
+# Solution 3: Bit Manipulation
 Refer to: [https://leetcode.com/problems/sqrtx/discuss/25048/Share-my-O(log-n)-Solution-using-bit-manipulation](https://leetcode.com/problems/sqrtx/discuss/25048/Share-my-O(log-n)-Solution-using-bit-manipulation)
 ```
 public class Solution {
