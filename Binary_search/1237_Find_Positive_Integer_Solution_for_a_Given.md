@@ -1,4 +1,4 @@
-# 1237. Find Positive Integer Solution for a Given Equation
+# 1237. Find Positive Integer Solution for a Given Equation 240
 Given a function `f(x, y)` and a value  `z`, return all positive integer pairs  `x`  and  `y`  where  `f(x,y) == z`.
 
 The function is constantly increasing, i.e.:
