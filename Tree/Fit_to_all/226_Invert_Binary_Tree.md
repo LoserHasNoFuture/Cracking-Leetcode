@@ -112,8 +112,38 @@ class Solution {
 }
 ```
 
-# Solution 5: Morris Traversal (not fully understand)
-Refer from:[https://leetcode.com/problems/invert-binary-tree/discuss/62781/C%2B%2B-Non-recursive-O(n)-time-O(1)-space-solution-based-on-Morris-Traversal](https://leetcode.com/problems/invert-binary-tree/discuss/62781/C%2B%2B-Non-recursive-O(n)-time-O(1)-space-solution-based-on-Morris-Traversal)
-
-And: [https://leetcode.com/problems/invert-binary-tree/discuss/62965/O(1)-space-solution-similar-to-Morris-traversal-(variant-of-post-order-traversal)](https://leetcode.com/problems/invert-binary-tree/discuss/62965/O(1)-space-solution-similar-to-Morris-traversal-(variant-of-post-order-traversal))
-
+# Solution 5: Morris Traversal (NIUBI)
+```
+class Solution {
+    public TreeNode invertTree(TreeNode root) {
+        if(root == null) return null;
+        // root node can not be reversed.
+        TreeNode new_root = new TreeNode(0);
+        new_root.left = root;
+        TreeNode cur = new_root;
+        
+        while(cur != null){
+            if(cur.left != null){
+                TreeNode prev = cur.left;
+                while(prev.right != null && prev.right != cur) prev = prev.right;
+                if(prev.right == null){
+                    prev.right = cur;
+                    cur = cur.left;
+                    continue;
+                }else{
+                    for(TreeNode temp = cur.left; ; temp = temp.left){
+                        TreeNode swap_temp = temp.left;
+                        temp.left = temp.right;
+                        temp.right = swap_temp;
+                        if(temp == prev) break;
+                    }
+                    prev.left = null;
+                }
+            }
+            cur = cur.right;
+        }
+        
+        return new_root.left;
+    }
+}
+```
