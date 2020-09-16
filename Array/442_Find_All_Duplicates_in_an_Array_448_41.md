@@ -1,4 +1,4 @@
-# 442. Find All Duplicates in an Array
+# 442. Find All Duplicates in an Array  (Do 448 First)
 Given an array of integers, 1 ≤ a[i] ≤  _n_  (_n_  = size of array), some elements appear  **twice**  and others appear  **once**.
 
 Find all the elements that appear  **twice**  in this array.
@@ -13,8 +13,8 @@ Could you do it without extra space and in O(_n_) runtime?
 **Output:**
 [2,3]
 
-# Solution:
-Since,
+# Solution: 
+Since:
 1) each element either appears once or twice
 2) and its value is in range [1,n].. 
 
@@ -36,3 +36,8 @@ class Solution {
     }
 }
 ```
+
+If one element appears more than two times, we can solve this problem by simply changing **res** to be set.   If res is set, we can also use cyclic sort to solve it.
+
+
+# Solution: HashSet (Ignore)
