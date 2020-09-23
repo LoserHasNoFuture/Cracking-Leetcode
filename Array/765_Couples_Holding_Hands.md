@@ -53,4 +53,34 @@ class Solution {
 ```
 
 
-# Solution: Union Find (Not do)
+# Solution: Union Find
+```
+class Solution {
+    public int minSwapsCouples(int[] row) {
+        int res = 0;
+        for(int i = 0; i < row.length; i = i + 2){
+            int couple = row[i] ^ 1;
+            if(row[i+1] == couple) continue;
+            int index = find_couple(row,couple,i+2);
+            swap(row, i+1, index);
+            res++;
+        }
+        
+        return res;
+    }
+    
+    public void swap(int[] row, int a, int b){
+        int temp = row[a];
+        row[a] = row[b];
+        row[b] = temp;
+    }
+    
+
+    public int find_couple(int[] row, int target, int start){
+        for(int i = start; i < row.length; i++){
+            if(target == row[i]) return i;
+        }0
+        return -1;
+    }
+}
+```
