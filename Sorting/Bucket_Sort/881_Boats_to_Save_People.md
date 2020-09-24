@@ -30,7 +30,7 @@ Return the minimum number of boats to carry every given person. (It is guarantee
 
 # Solution: Sort and Add to Boat
 Because people's weight are integer, so we can use bucket sort.
-If a boat can take more than two people, then we have to maintain a variable (current weight).  
+If a boat can take more than two people, then we have to maintain a variable (current weight) and also use binary search.  
 ```
 class Solution {
     public int numRescueBoats(int[] people, int limit) {

@@ -57,30 +57,37 @@ class Solution {
 ```
 class Solution {
     public int minSwapsCouples(int[] row) {
-        int res = 0;
-        for(int i = 0; i < row.length; i = i + 2){
-            int couple = row[i] ^ 1;
-            if(row[i+1] == couple) continue;
-            int index = find_couple(row,couple,i+2);
-            swap(row, i+1, index);
-            res++;
-        }
+        if(row.length == 0) return 0;
+        int[] id = new int[row.length/2];
+        int[] sz = new int[row.length/2];
+        HashSet<Integer> set = new HashSet<>();
+        for(int i = 0; i < id.length; i++){
+            id[i] = i;
+            set.add(i);
+        } 
         
-        return res;
+        for(int i = 0; i < row.length; i = i+2){
+            int x = find_root(id,row[i]/2);
+            int y = find_root(id,row[i+1]/2);
+            if(x == y) continue;
+            if(sz[x] < sz[y]){
+                id[x] = y;
+                set.remove(x);
+            } else{
+                id[y] = x;
+                set.remove(y);
+                sz[x] = Math.max(sz[x],sz[y]+1);
+            }
+        }
+        return row.length/2 - set.size();
     }
     
-    public void swap(int[] row, int a, int b){
-        int temp = row[a];
-        row[a] = row[b];
-        row[b] = temp;
-    }
-    
-
-    public int find_couple(int[] row, int target, int start){
-        for(int i = start; i < row.length; i++){
-            if(target == row[i]) return i;
-        }0
-        return -1;
+    public int find_root(int[] id, int p){
+        while(id[p] != p){
+            id[p] = id[id[p]];
+            p = id[p];
+        }
+        return p;
     }
 }
 ```
