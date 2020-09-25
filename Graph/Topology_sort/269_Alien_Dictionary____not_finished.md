@@ -47,54 +47,59 @@ There is a new alien language which uses the latin alphabet. However, the order 
 class Solution {
     public String alienOrder(String[] input) {        
         if(input.length == 1) return input[0];
-        HashMap<Character, HashSet<Character>> parents = new HashMap<Character, HashSet<Character>>();
-		
+        
+        int[] count = new int[26];
+        for(int i = 0; i < count.length; i++) count[i] = -1;
+        LinkedList<Integer>[] children = new LinkedList[26];
+        int total_letter = 0;
+        
         for(int i = 0; i < input.length - 1; i++){
             char[] word1 = input[i].toCharArray();
             char[] word2 = input[i+1].toCharArray();
             
             for(char ch : word1){
-                if(!parents.containsKey(ch))parents.put(ch, new HashSet<Character>());
+                if(count[ch-'a'] == -1) {
+                    count[ch-'a'] = 0;
+                    total_letter++;
+                    children[ch-'a'] = new LinkedList<Integer>();
+                }
             }
             
             for(char ch : word2){
-                if(!parents.containsKey(ch))parents.put(ch, new HashSet<Character>());
+                if(count[ch-'a'] == -1) {
+                    count[ch-'a'] = 0;
+                    total_letter++;
+                    children[ch-'a'] = new LinkedList<Integer>();
+                }
             }
             
             for(int j = 0; j < word1.length && j < word2.length; j++){
                 if(word1[j] != word2[j]){
-                    HashSet<Character> set = parents.get(word2[j]);
-                    set.add(word1[j]);
-                    parents.put(word2[j],set);
-                    j = word1.length;
+                    children[word1[j]-'a'].add(word2[j] - 'a');
+                    count[word2[j]-'a']++; 
+                    break;
                 }
                 if(j == word2.length-1 && j < word1.length - 1) return new String("");
             }
             
         }
-
-        StringBuilder sb = new StringBuilder();
+        
 //         topology sort
-        while(parents.size() != 0){
-            char x = find_zero_indegree(parents);
-            if(x == '#') return new String("");
+        StringBuilder sb = new StringBuilder();
+        Queue<Integer> q = new LinkedList<Integer>();
+        
+        for(int i = 0; i < count.length; i++) if(count[i] == 0) q.offer(i);
+        while(!q.isEmpty()){
+            char x = (char)(q.poll() + (int)'a');
             sb.append(x + "");
-            remove_from_map(parents,x);
+            total_letter--;
+            for(Integer ch: children[x-'a']){
+                count[ch]--;
+                if(count[ch] == 0) q.offer(ch);
+            }
         }    
-        return sb.toString();
+        return total_letter == 0?sb.toString(): new String("");
     }
-    
-    
-    public void remove_from_map(HashMap<Character, HashSet<Character>> parents, char x){
-        parents.remove(x);
-        for(Character key : parents.keySet()) 
-            parents.get(key).remove(x);
-    }
-    
-    public char find_zero_indegree(HashMap<Character, HashSet<Character>> parents){
-        for(Character key : parents.keySet()) 
-            if(parents.get(key).size() == 0) return key;
-        return '#';
-    }
+   
 }
 ```
