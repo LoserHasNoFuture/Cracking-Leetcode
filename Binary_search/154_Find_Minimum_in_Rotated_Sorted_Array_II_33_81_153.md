@@ -40,21 +40,20 @@ class Solution {
             
             if(nums[start] <= nums[mid] && nums[mid] <= nums[end]){
 //                 in order
-                end = mid - 1;
+                end = start;
             }else if (nums[start] <= nums[mid] && nums[mid] >= nums[end]){
 //                 pivot in right
                 start = mid + 1;
             }else{
-//                 pivot in left
-                if(mid == 1) return Math.min(nums[mid],res);
-                int count = 1;
-                while(mid - count > start && nums[mid] == nums[mid - count]) count++;
-                if(mid - count > start && nums[mid] > nums[mid - count]) end = mid - count;
-                else return Math.min(nums[mid],res);
-                
+//                 pivot in left or in mid
+                if(mid == 0) return nums[mid];
+                if(nums[mid] >= nums[mid - 1]) end = mid - 1;
+                else {
+                    start = mid;
+                    end = mid;
+                };
             }
         }
-        
         return Math.min(nums[start],res);
     }
 }
