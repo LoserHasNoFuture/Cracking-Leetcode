@@ -27,20 +27,16 @@ class Solution {
         
         while(start < end){
             int mid = (start + end) >>> 1;
-            if(nums[start] <= nums[mid] && nums[mid] <= nums[end]){
-//                 in order
-                end = mid - 1;
-            }else if (nums[start] <= nums[mid] && nums[mid] >= nums[end]){
-//                 pivot in right
+            if(nums[mid] > nums[end]){
                 start = mid + 1;
+            }else if(nums[mid] < nums[start]){
+                end = mid;
             }else{
-//                 pivot in left
-                if(mid == 1) return nums[mid];
-                if(nums[mid] > nums[mid - 1]) end = mid - 1;
-                else return nums[mid];
+                end = start;
             }
+            
         }
-        
+
         return nums[start];
     }
 }

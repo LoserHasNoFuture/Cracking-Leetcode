@@ -28,33 +28,25 @@ class Solution {
     public int findMin(int[] nums) {
         int start = 0;
         int end = nums.length - 1;
-        int res = Integer.MAX_VALUE;
         
         while(start < end){
-            int mid = (start + end) >>> 1;
             if(nums[start] == nums[end]){
-                res = Math.min(nums[start],res);
-                start++;end--;
+                start++;
                 continue;
             }
-            
-            if(nums[start] <= nums[mid] && nums[mid] <= nums[end]){
-//                 in order
-                end = start;
-            }else if (nums[start] <= nums[mid] && nums[mid] >= nums[end]){
-//                 pivot in right
+            int mid = (start + end) >>> 1;
+//             mid must be greater than end
+            if(nums[mid] > nums[end]){
                 start = mid + 1;
+//             mid must be smaller than start
+            }else if(nums[mid] < nums[start]){
+                end = mid;
             }else{
-//                 pivot in left or in mid
-                if(mid == 0) return nums[mid];
-                if(nums[mid] >= nums[mid - 1]) end = mid - 1;
-                else {
-                    start = mid;
-                    end = mid;
-                };
+                end = start;
             }
         }
-        return Math.min(nums[start],res);
+        
+        return nums[start];
     }
 }
 ```

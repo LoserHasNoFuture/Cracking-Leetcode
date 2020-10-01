@@ -32,30 +32,35 @@ You should search for `target`  in  `nums`  and if you found return its index, o
 The position of pivot can be decided by the order of **nums[start]**, **nums[mid]**, **nums[end]**.
 ```
 class Solution {
-    public int search(int[] nums, int target) {
+    public int search(int[] arr, int target) {
         int start = 0;
-        int end = nums.length - 1;
-        
+        int end = arr.length - 1;
+
         while(start < end){
             int mid = (start + end) >>> 1;
-            if(nums[mid] == target) return mid;
-            if(nums[start] <= nums[mid] && nums[mid] <= nums[end]){
-//                 in order
-                if(nums[mid] < target) start = mid + 1;
-                else end = mid - 1;
-            }else if (nums[start] <= nums[mid] && nums[mid] >= nums[end]){
-//                 pivot in right
-                if(target <= nums[end] || target > nums[mid]) start = mid + 1;
-                else end = mid - 1;
+            if(arr[mid] == target) return mid;
+            if(arr[mid] > arr[end]){
+//                 minimum at right
+                if(arr[mid] >= target && arr[start] <= target){
+                    end = mid -1;
+                }else{
+                    start = mid + 1;
+                }
+            }else if (arr[mid] <= arr[start]){
+//                 minimum at the mid or the left
+                if(arr[mid] < target && arr[end] >= target){
+                    start = mid + 1;
+                }else{
+                    end = mid - 1;
+                }
             }else{
-//                 pivot in left
-                if(target >= nums[start] || target < nums[mid]) end = mid - 1;
+//                 in order
+                if(arr[mid] >= target) end = mid;
                 else start = mid + 1;
             }
-        }
-        
-        if(nums[start] == target) return start;
-        return -1;
+        }       
+
+        return arr[start] == target? start: -1;
     }
 }
 ```
