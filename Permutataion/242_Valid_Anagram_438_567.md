@@ -1,0 +1,40 @@
+# 242. Valid Anagram 438 567
+Given two strings  _s_  and  _t_ , write a function to determine if  _t_  is an anagram of  _s_.
+
+**Example 1:**
+
+**Input:** _s_ = "anagram", _t_ = "nagaram"
+**Output:** true
+
+**Example 2:**
+
+**Input:** _s_ = "rat", _t_ = "car"
+**Output:** false
+
+**Note:**  
+You may assume the string contains only lowercase alphabets.
+
+**Follow up:**  
+What if the inputs contain unicode characters? How would you adapt your solution to such case?
+
+# Solution: Sliding Window
+```
+class Solution {
+    public boolean isAnagram(String s, String t) {
+        if(s.length() != t.length()) return false;
+        int[] map = new int[26];
+        for(int i = 0; i < s.length(); i++){
+            map[s.charAt(i) - 'a'] ++;
+            map[t.charAt(i) - 'a'] --;
+        }
+        return isAllZeros(map);
+    }
+    
+    public boolean isAllZeros(int[] map){
+        for(int i = 0; i < map.length; i++){
+            if(map[i] != 0) return false;
+        }
+        return true;
+    }
+}
+```
