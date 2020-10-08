@@ -1,4 +1,4 @@
-# 1319. Number of Operations to Make Network Connected
+# 1319. Number of Operations to Make Network Connected 547
 There are `n` computers numbered from `0` to `n-1` connected by ethernet cables `connections` forming a network where `connections[i] = [a, b]` represents a connection between computers `a` and `b`. Any computer can reach any other computer directly or indirectly through the network.
 
 Given an initial computer network  `connections`. You can extract certain cables between two directly connected computers, and place them between any pair of disconnected computers to make them directly connected. Return the  _minimum number of times_  you need to do this in order to make all the computers connected. If it's not possible, return -1.
@@ -88,23 +88,36 @@ Refer From: [https://leetcode.com/problems/number-of-operations-to-make-network-
 class Solution {
     public int makeConnected(int n, int[][] connections) {
         if (connections.length < n - 1) return -1; // To connect all nodes need at least n-1 edges
+        
+        boolean[] visited = new boolean[n];
+        int count = 0;
+        
         List<Integer>[] graph = new List[n];
         for (int i = 0; i < n; i++) graph[i] = new ArrayList<>();
         for (int[] c : connections) {
             graph[c[0]].add(c[1]);
             graph[c[1]].add(c[0]);
         }
-        int components = 0;
-        boolean[] visited = new boolean[n];
-        for (int v = 0; v < n; v++) components += dfs(v, graph, visited);
-        return components - 1; 
+        
+        for(int i = 0; i < n; i++){
+            if(!visited[i]){
+                dfs(graph,visited,i);
+                count++;
+            }
+        }
+        
+        return count - 1;
     }
-    int dfs(int u, List<Integer>[] graph, boolean[] visited) {
-        if (visited[u]) return 0;
-        visited[u] = true;
-        for (int v : graph[u]) dfs(v, graph, visited);
-        return 1;
+    
+    public void dfs(List<Integer>[] graph, boolean[] visited, int i){
+        if(visited[i]) return;
+        visited[i] = true;
+        
+        for(int key:graph[i]){
+            dfs(graph,visited,key);
+        }
     }
+
 }
 ```
 
