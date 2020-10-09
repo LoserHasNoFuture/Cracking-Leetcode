@@ -35,7 +35,7 @@ class Solution {
         while(end < s.length()){
             char c = s_array[end];
             map[c]--;
-            if(NoGreaterThanZero(map)){
+            if(map[c] == 0  && NoGreaterThanZero(map)){
                 while(start <= end){
                     map[s_array[start]] = map[s_array[start]] + 1;
                     if(map[s_array[start]] > 0){
@@ -50,10 +50,13 @@ class Solution {
                     start++;
                 }
             }
+
             end++;
         }
+        
         return min == Integer.MAX_VALUE?new String():s.substring(res_start,res_end);
     }
+    
     
     public boolean NoGreaterThanZero(int[] map){
         for(int count:map){
