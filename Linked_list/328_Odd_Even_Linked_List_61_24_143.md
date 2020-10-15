@@ -40,11 +40,8 @@ class Solution {
         }
         
 //         merge two linked lists
-        while(evenHead != null){
-            odd.next = evenHead;
-            odd = odd.next;
-            evenHead = evenHead.next;
-        }
+        if(evenHead != null) odd.next = evenHead;
+        
              
         return head;
     }
