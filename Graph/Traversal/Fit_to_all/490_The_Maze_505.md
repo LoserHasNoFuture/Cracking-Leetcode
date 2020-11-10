@@ -1,4 +1,4 @@
-# 490. The Maze
+# 490. The Maze 505
 There is a ball in a  `maze`  with empty spaces (represented as  `0`) and walls (represented as  `1`). The ball can go through the empty spaces by rolling  **up, down, left or right**, but it won't stop rolling until hitting a wall. When the ball stops, it could choose the next direction.
 
 Given the  `maze`, the ball's  `start`  position and the  `destination`, where  `start = [startrow, startcol]`  and  `destination = [destinationrow, destinationcol]`, return  `true`  if the ball can stop at the destination, otherwise return  `false`.
@@ -60,15 +60,13 @@ class Solution {
                 while(cur[0] + neigh[0]*count >= 0 && cur[0] + neigh[0]*count < row
                      && cur[1] + neigh[1]*count >= 0 && cur[1] + neigh[1]*count < col
                      && maze[cur[0] + neigh[0]*count][cur[1] + neigh[1]*count] != 1) {
-                    if(cur[0] + neigh[0]*count == destination[0] && cur[1] + neigh[1]*count == destination[1]){
-                        int x = destination[0] + neigh[0];
-                        int y = destination[1] + neigh[1];
-                        if(x < 0 || x >= row || y < 0 || y>= col || maze[x][y] == 1) return true;
-                    }
                     count++;    
                 }
                 count--;
                 if(!visited[cur[0] + neigh[0]*count][cur[1] + neigh[1]*count]){
+                    if(cur[0] + neigh[0]*count == destination[0] 
+                       && cur[1] + neigh[1]*count == destination[1]) return true;
+                    
                     visited[cur[0] + neigh[0]*count][cur[1] + neigh[1]*count] = true;
                     queue.offer(new int[]{cur[0] + neigh[0]*count,cur[1] + neigh[1]*count});
                 }
