@@ -39,7 +39,7 @@ These are the only two combinations.
 -   All elements of  `candidates`  are  **distinct**.
 -   `1 <= target <= 500`
 
-# Solution: DFS
+# Solution: DFS (Beat 19%)
 ```
 class Solution {
     List<List<Integer>> res = new ArrayList<List<Integer>>();
@@ -65,6 +65,66 @@ class Solution {
             sum += candidates[index];
             dfs(new ArrayList<Integer>(list),index, sum, candidates, target);
         } 
+        
+    }
+}
+```
+
+# Solution 2: BackTracking (Beat 76%)
+```
+class Solution {
+    ArrayList<List<Integer>> res = new ArrayList<List<Integer>>();
+    public List<List<Integer>> combinationSum(int[] candidates, int target) {
+        ArrayList<Integer> cur = new ArrayList<Integer>();
+        
+        dfs(candidates, target, 0, 0, cur);
+        
+        return res;
+    }
+    
+    
+    public void dfs(int[] can, int target, int sum, int index, ArrayList<Integer> cur){
+        if(sum > target) return;
+        if(sum == target) res.add(new ArrayList<Integer>(cur));
+        
+        for(int i = index; i < can.length; i++) {
+            if(sum  < target) {
+                cur.add(can[i]);
+                sum+=can[i];
+                
+                dfs(can, target, sum, i, cur);
+                
+                cur.remove(cur.size() - 1);
+                sum-=can[i];
+            }
+        }
+        
+    }
+}
+```
+
+Another way of writing: 
+```
+class Solution {
+    ArrayList<List<Integer>> res = new ArrayList<List<Integer>>();
+    public List<List<Integer>> combinationSum(int[] candidates, int target) {
+        ArrayList<Integer> cur = new ArrayList<Integer>();    
+        dfs(candidates, target, 0, cur);
+        return res;
+    }
+    
+    
+    public void dfs(int[] can, int target, int index, ArrayList<Integer> cur){
+        
+        if(target == 0) res.add(new ArrayList<Integer>(cur));
+        
+        for(int i = index; i < can.length; i++) {
+            if(target > 0) {
+                cur.add(can[i]);
+                dfs(can, target-can[i], i, cur);
+                cur.remove(cur.size() - 1);
+            }
+        }
         
     }
 }
