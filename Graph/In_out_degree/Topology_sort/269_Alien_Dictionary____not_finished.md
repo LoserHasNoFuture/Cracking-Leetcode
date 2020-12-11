@@ -42,7 +42,8 @@ There is a new alien language which uses the latin alphabet. However, the order 
 -   You may assume all letters are in lowercase.
 -   If the order is invalid, return an empty string.
 -   There may be multiple valid order of letters, return any one of them is fine.
-# Solution: 
+
+# Solution: Topology Sort (Beat 18%)
 ```
 class Solution {
     public String alienOrder(String[] input) {        
