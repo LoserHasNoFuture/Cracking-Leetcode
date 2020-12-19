@@ -1,0 +1,2 @@
+- [1403 Minimum Subsequence in Non-Increasing Order]([https://leetcode.com/problems/minimum-subsequence-in-non-increasing-order/](https://leetcode.com/problems/minimum-subsequence-in-non-increasing-order/))
+- [1512 Number of Good Pairs ](https://leetcode.com/problems/number-of-good-pairs/)
