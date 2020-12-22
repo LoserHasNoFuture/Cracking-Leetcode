@@ -1,4 +1,4 @@
-# 980. Unique Paths III  (not finished)
+# 980. Unique Paths III
 
 On a 2-dimensional `grid`, there are 4 types of squares:
 
@@ -39,30 +39,33 @@ Note that the starting and ending square can be anywhere in the grid.
 
 1.  `1 <= grid.length * grid[0].length <= 20`
 
-# Solution 1: BackTracking  (Beat 50.88%)
+# Solution 1: BackTracking  (Beat 100%)
 ```
 class Solution {
-    int res = 0;
+    int res = 0, empty = 0;
     int[][] neighbors = {{-1,0},{1,0},{0,-1},{0,1}};
     int row, col;
+    int obstacles = 0;
     public int uniquePathsIII(int[][] grid) {
         row = grid.length;
         col = grid[0].length;
+        int sx = 0,sy = 0;
         for(int i = 0; i < row; i++){
             for(int j = 0; j < col; j++){
-                if(grid[i][j] == 1) {
+                if(grid[i][j] == 0) empty++;
+                if(grid[i][j] == 1){
+                    sx = i; sy=j;
                     grid[i][j] = -1;
-                    dfs(grid, i, j);
-                    break;
                 }
             }
-        }   
+        }
+        
+        dfs(grid, sx, sy);  
         return res;
     }
     
     
     public void dfs(int[][] grid, int x, int y){
-        
     
         for(int[] neigh:neighbors){
             int next_x = x + neigh[0];
@@ -73,24 +76,18 @@ class Solution {
               grid[next_x][next_y] == -1) continue;
             
             if(grid[next_x][next_y] == 2) {
-                if(no_unvisited_sqare(grid)) res++;
+                if(empty == 0) res++;
                 continue;
             }
             
+            empty--;
             grid[next_x][next_y] = -1;
             dfs(grid,next_x,next_y);
             grid[next_x][next_y] = 0;
-        }
+            empty++;
+        }    
         
     }
     
-    public boolean no_unvisited_sqare(int[][] grid){
-        for(int i = 0; i < row; i++){
-            for(int j = 0; j < col; j++){
-                if(grid[i][j] == 0) return false;
-            }
-        }
-        return true;
-    }
 }
 ```

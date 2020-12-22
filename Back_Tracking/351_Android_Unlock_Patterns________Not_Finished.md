@@ -89,3 +89,123 @@ class Solution {
     }
 }
 ```
+
+
+# Solution 2: Ugly Solution (Beat 97%, NEED IMPROVE)
+```
+class Solution {
+    
+    int[][] neighbors = {{-1,0},{1,0},{0,1},{0,-1},{1,1},{-1,-1},{-1,1},{1,-1},
+                         {1,2},{1,-2},{-1,2},{-1,-2},{2,1},{2,-1},{-2,-1},{-2,1}};
+    public int numberOfPatterns(int m, int n) {
+        boolean[][] visited = new boolean[3][3];
+        
+        int res = 0;
+        
+        res += start_from_edge(visited,m,n) * 4;
+        
+        res += start_from_01(visited,m,n) * 4;
+        
+        res += start_from_middle(visited,m,n);
+        
+        return res;
+    }
+    
+    public int start_from_01(boolean[][] visited, int m, int n){
+        int res = 0;
+        visited[0][1] = true;
+        if(m == 1) res++;
+        
+        visited[0][0] = true;
+        res += dfs(0,0,visited,2,m,n) * 2;
+        visited[0][0] = false;
+        
+        visited[1][1] = true;
+        res += dfs(1,1,visited,2,m,n);
+        visited[1][1] = false;
+        
+        visited[1][0] = true;
+        res += dfs(1,0,visited,2,m,n) * 2;
+        visited[1][0] = false;
+        
+        visited[2][0] = true;
+        res += dfs(2,0,visited,2,m,n) * 2;
+        visited[2][0] = false;
+        
+        
+        visited[0][1] = false;
+        return res;
+    }
+    
+    public int start_from_edge(boolean[][] visited, int m, int n){
+        int res = 0;
+        visited[0][0] = true;
+        if(m == 1) res++;
+        
+        visited[0][1] = true;
+        res += dfs(0,1,visited,2,m,n) * 2;
+        visited[0][1] = false;
+        
+        visited[1][1] = true;
+        res += dfs(1,1,visited,2,m,n);
+        visited[1][1] = false;
+        
+        visited[1][2] = true;
+        res += dfs(1,2,visited,2,m,n) * 2;
+        visited[1][2] = false;
+        
+        visited[0][0] = false;
+        
+        return res;
+    }
+    
+    
+    
+    public int start_from_middle(boolean[][] visited, int m, int n){
+        int res = 0;
+        visited[1][1] = true;
+        if(m == 1) res++;
+        
+        visited[0][0] = true;
+        res += dfs(0,0,visited,2,m,n) * 4;
+        visited[0][0] = false;
+        
+        visited[0][1] = true;
+        res += dfs(0,1,visited,2,m,n) * 4;
+        visited[0][1] = false;
+        
+        visited[1][1] = false;
+        return res;
+    }
+    
+    public int dfs(int x, int y, boolean[][] visited, int depth, int m, int n){
+        int res = 0;
+        
+        if(depth >= m && depth <= n) res++;
+        if(depth >= n) return res;
+        
+        
+        for(int[] neigh: neighbors){
+            int next_x = neigh[0] + x;
+            int next_y = neigh[1] + y;
+            
+            if(next_x < 0 || next_y < 0 || next_x >= 3 || next_y >= 3) continue;
+            
+            while(visited[next_x][next_y]){
+                next_x += neigh[0];
+                next_y += neigh[1];
+                if(next_x < 0 || next_y < 0 || next_x >= 3 || next_y >= 3) break;
+            }
+            
+            if(next_x < 0 || next_y < 0 || next_x >= 3 || next_y >= 3) continue;
+            
+            visited[next_x][next_y] = true;
+            res += dfs(next_x,next_y, visited, depth+1,m,n);
+            visited[next_x][next_y] = false;
+        }
+        
+        return res;
+        
+    }
+}
+```
