@@ -65,3 +65,6 @@ class Solution {
     }
 }
 ```
+
+# We can not sort start and end arrays sparately
+consider this case: [[-100,-87],[-99,-44],[-85-76],[-76,-10]]
