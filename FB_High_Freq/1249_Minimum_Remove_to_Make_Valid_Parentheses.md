@@ -73,6 +73,8 @@ class Solution {
 
 # Solution 2: Constant Space Algo (Beat 85%)
 Refer from: [https://leetcode.com/problems/minimum-remove-to-make-valid-parentheses/discuss/419466/Constant-Space-Solution](https://leetcode.com/problems/minimum-remove-to-make-valid-parentheses/discuss/419466/Constant-Space-Solution)
+
+Key idea: count the number of open and close parenthesis at each position
 ```
 class Solution {
     public String minRemoveToMakeValid(String s) {
