@@ -70,3 +70,78 @@ class Solution {
     }
 }
 ```
+
+# Solution 2: Constant Space Algo (Beat 85%)
+Refer from: [https://leetcode.com/problems/minimum-remove-to-make-valid-parentheses/discuss/419466/Constant-Space-Solution](https://leetcode.com/problems/minimum-remove-to-make-valid-parentheses/discuss/419466/Constant-Space-Solution)
+```
+class Solution {
+    public String minRemoveToMakeValid(String s) {
+        int open = 0, close = 0;
+        StringBuilder sb = new StringBuilder();
+        
+        // total # of )
+        for(char c: s.toCharArray()){
+            if(c == ')') close++;
+        }
+        
+        for(char c: s.toCharArray()){
+            if(c == '('){
+                open++;
+                if(close > 0){
+                // we can find a ) for this (
+                    sb.append(c);
+                    close--;
+                }
+            }else if(c == ')'){
+                if(open > 0){
+                // this ) can be matched with a previous (
+                    open--;
+                    sb.append(c);
+                }else{
+                // this ) can not be matched with any future (
+                    close--;
+                }
+            }else sb.append(c);
+            
+        }
+        
+        return sb.toString();
+    }
+}
+```
+
+# Solution 3: Another Lamer Constant Space Algo (Beat 18%)
+From Zhengqi.
+```
+class Solution {
+    public String minRemoveToMakeValid(String s) {
+        int open = 0;
+        StringBuilder sb = new StringBuilder();
+        
+//         remove extra )
+        for(char c: s.toCharArray()){
+            if(c == '(') open++;
+            else if(c == ')'){
+                if(open == 0) continue;
+                else open--;
+            }
+            sb.append(c);
+        }
+
+//         remove extra (        
+        s = sb.toString(); sb.setLength(0);
+        int close = 0;
+        for(int i = s.length() - 1; i >= 0; i--){
+            char c = s.charAt(i);
+            if(c == ')') close++;
+            else if(c == '('){
+                if(close == 0) continue;
+                else close--;
+            }
+            sb.append(c);
+        }
+        
+        return sb.reverse().toString();
+    }
+}
+```
