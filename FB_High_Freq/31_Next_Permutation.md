@@ -82,26 +82,36 @@ class Solution {
 # Solution 2: Narayana Pandita's O(n) Solution
 ```
 class Solution {
-    public void nextPermutation(int[] A) {
-        if(A == null || A.length <= 1) return;
-        int i = A.length - 2;
-        while(i >= 0 && A[i] >= A[i + 1]) i--; // Find 1st id i that breaks descending order
-        if(i >= 0) {                           // If not entirely descending
-            int j = A.length - 1;              // Start from the end
-            while(A[j] <= A[i]) j--;           // Find rightmost first larger id j
-            swap(A, i, j);                     // Switch i and j
+    public void nextPermutation(int[] nums) {
+        
+        int index = nums.length - 1;
+        while(index > 0 && nums[index] <= nums[index-1]) index--;
+        
+        
+        if(index > 0){
+            int cur = index - 1;
+            int tmp = nums.length - 1;
+            // actually this part can be done by binary search
+            while(nums[cur] >= nums[tmp]) tmp--;
+            
+            swap(nums,cur,tmp);
+            reverse(nums, cur+1, nums.length - 1);
+            
+        }else reverse(nums, 0, nums.length - 1);
+        
+    }
+    
+    
+    public void reverse(int[] nums, int l, int r){
+        while(l < r){
+            swap(nums,l++,r--);
         }
-        reverse(A, i + 1, A.length - 1);       // Reverse the descending sequence
     }
-
-    public void swap(int[] A, int i, int j) {
-        int tmp = A[i];
-        A[i] = A[j];
-        A[j] = tmp;
-    }
-
-    public void reverse(int[] A, int i, int j) {
-        while(i < j) swap(A, i++, j--);
+    
+    public void swap(int[] nums, int a, int b){
+        int tmp = nums[a];
+        nums[a] = nums[b];
+        nums[b] = tmp;
     }
 }
 ```
