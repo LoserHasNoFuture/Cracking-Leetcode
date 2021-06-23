@@ -58,3 +58,34 @@ class Solution {
     }
 }
 ```
+
+
+```
+class Solution {
+    public boolean search(int[] nums, int target) {
+        int start = 0, end = nums.length - 1;
+        
+        while(start < end){
+            
+            int mid = (start + end) >>> 1;
+            while(end > mid && nums[mid] == nums[end]){
+                while(end > mid && nums[mid] == nums[end]) end--;
+                mid = (start + end) >>> 1;    
+            }
+            if(start == end) break;
+            if(nums[mid] == target) return true;
+            
+            if(nums[mid] < nums[end]){
+                if(nums[mid] > target || nums[end] < target) end = mid;
+                else start = mid + 1;
+            }else{
+                if(nums[mid] < target || nums[end] >= target) start = mid + 1;
+                else end = mid;
+            }
+            
+        }
+        
+        return nums[start] == target;
+    }
+}
+```
