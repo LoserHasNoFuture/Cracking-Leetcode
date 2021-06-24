@@ -19,7 +19,7 @@ Special thanks to  [@pbrother](https://leetcode.com/pbrother/)  for adding this 
 **Input:** s = "axc", t = "ahbgdc"
 **Output:** false
 
-# Solution 1: Using Two Pointers
+# Solution 1: Using Two Pointers O(n)
 ```
 class Solution {
     public boolean isSubsequence(String t, String s) {
@@ -37,59 +37,23 @@ class Solution {
 }
 ```
 
-# Solution 2: HashMap (For follow-up)
-Without Binary Search:
-```
-class Solution {
-    public boolean isSubsequence(String t, String s) {
-        if(t.length() > s.length()) return false;
-        
-        HashMap<Character,List> map = new HashMap<Character,List>();
-        for(int i = 0; i < s.length(); i++){
-            List<Integer> arr = map.getOrDefault(s.charAt(i), new ArrayList<Integer>());
-            arr.add(i);
-            map.put(s.charAt(i),arr);
-        }
-        
-        int prev = -1;
-        for(int i = 0; i < t.length(); i++){
-            List<Integer> arr = map.getOrDefault(t.charAt(i), new ArrayList<Integer>());
-            if(arr.size() == 0) return false;
-            else{
-            // binary search can be used here to locate cur
-                int cur = -1;
-                for(int j = 0; j < arr.size(); j++){
-                    if(arr.get(j) > prev){
-                        cur = arr.get(j);
-                        break;
-                    }
-                }
-                if(cur == -1) return false;
-                prev = cur;                
-            }
-        }
-        return true;
-        
-    }
-}
-```
-
+# Solution 2: Using HashMap (For follow-up)
+O(n) for initializating map
+O(mlogn) for each t, where m is the length of t
 Using binary search:
 ```
 class Solution {
     public boolean isSubsequence(String t, String s) {
         if(t.length() > s.length()) return false;
         
-        HashMap<Character,List> map = new HashMap<Character,List>();
-        for(int i = 0; i < s.length(); i++){
-            List<Integer> arr = map.getOrDefault(s.charAt(i), new ArrayList<Integer>());
-            arr.add(i);
-            map.put(s.charAt(i),arr);
-        }
+        List[] map = new ArrayList[256];
+        for(int i = 0; i < 256; i++) map[i] = new ArrayList<Integer>();
+        for(int i = 0; i < s.length(); i++) map[s.charAt(i)].add(i);
+        
         
         int prev = -1;
         for(int i = 0; i < t.length(); i++){
-            List<Integer> arr = map.getOrDefault(t.charAt(i), new ArrayList<Integer>());
+            List<Integer> arr = map[t.charAt(i)];
             if(arr.size() == 0) return false;
             else{
                 int start = 0;
