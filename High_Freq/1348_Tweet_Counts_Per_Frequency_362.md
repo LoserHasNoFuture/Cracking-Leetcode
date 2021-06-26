@@ -44,44 +44,101 @@ tweetCounts.getTweetCountsPerFrequency("hour", "tweet3", 0, 210);  // return [4]
 -   There will be at most  `104`  calls  **in total**  to  `recordTweet`  and  `getTweetCountsPerFrequency`.
 
 
-# Solution: HashMap + Binary Search  (Beat 100%)
+# Solution: HashMap + Binary Search Tree  (Beat 100%)
+For each tweetname, originally, I considered saving all timestamps using ArrayList or LinkedList.
+
+using ArrayList, adding a new timestamp takes O(n). Finding the insert position using binary search is O(logn), however moving elements takes O(n).
+using LinkedList, the searching part takes O(n).
+So I thought, why not using binary search tree. Where searching and inserting are both O(height). If the tree is balanced, then they are all O(logn).
+
+Following is my implementation, even though I did not try balancing the tree, it already beat 100%.
+
+
 ```
 class TweetCounts {
 
-    class Node{
+    class TreeNode{
+        TreeNode left;
+        TreeNode right;
         int time;
         int count;
+        TreeNode(int _time, int _count ){
+            this.time = _time;
+            this.count = _count;
+        }
     }
     
-    HashMap<String,List<Node>> map;
+    HashMap<String,TreeNode> map;
     public TweetCounts() {
-        map = new HashMap<String,List<Node>>();
+        map = new HashMap<String,TreeNode>();
     }
     
     public void recordTweet(String tweetName, int time) {
-        
+        if(map.containsKey(tweetName)){
+            TreeNode root = map.get(tweetName);
+            insert_to_tree(root,time);
+        }else{
+            map.put(tweetName, new TreeNode(time,1));
+        }
     }
     
-
+    public void insert_to_tree(TreeNode root, int time){
+        if(root.time > time) {
+            if(root.left == null) root.left = new TreeNode(time,1);
+            else insert_to_tree(root.left,time);
+        }else if(root.time < time){
+            if(root.right == null) root.right = new TreeNode(time,1);
+            else insert_to_tree(root.right,time);
+        }else {
+            root.count++;
+        }
+    }
+    
+    
     public List<Integer> getTweetCountsPerFrequency(String freq, String tweetName, int startTime, int endTime) {
         List<Integer> res = new ArrayList<>();
         if(!map.containsKey(tweetName)) return res;
-        List<Node> arr = map.get(tweetName);
+        TreeNode root = map.get(tweetName);
+        
         
         if(freq.equals("minute")){
-            count_tweets(res,startTime,endTime,59,arr);
+            count_tweets(res,startTime,endTime,59,root);
         }else if(freq.equals("hour")){
-            count_tweets(res,startTime,endTime,3599,arr);
+            count_tweets(res,startTime,endTime,3599,root);
         }else{
-            count_tweets(res,startTime,endTime,86399,arr);
+            count_tweets(res,startTime,endTime,86399,root);
         }
         return res;
     }
     
-    public void count_tweets(List<Integer> res, int startTime, int endTime, int interval, List<Node> arr ){
+    public void count_tweets(List<Integer> res, int startTime, int endTime, int interval, TreeNode root){
+        ArrayList<int[]> arr = new ArrayList<int[]>();
+        // System.out.println("******");
+        find_all_tweets_in_duration(root,startTime,endTime,arr);
         
-        // using binary search in here
+        
+        int index = 0;
+        for(int cur = startTime; cur <= endTime; cur = cur + interval + 1){
+            int end = cur + interval;
+            int tmp = index;
+            int cnt = 0;
+            while(index < arr.size() && arr.get(index)[0] <= end) {
+                cnt += arr.get(index)[1];
+                index++;
+            }
+            res.add(cnt);
+        }
+        
     }
     
+    public void find_all_tweets_in_duration(TreeNode root, int startTime, int endTime, ArrayList<int[]> arr){
+        if(root == null) return;
+        if(root.time > startTime) find_all_tweets_in_duration(root.left,startTime,endTime,arr);
+        if(root.time >= startTime && root.time <= endTime){
+            arr.add(new int[]{root.time,root.count});
+            // System.out.println(root.time+ ", "+root.count);
+        }
+        if(root.time < endTime) find_all_tweets_in_duration(root.right,startTime,endTime,arr);
+    }
 }
 ```

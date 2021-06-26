@@ -1,4 +1,4 @@
-# 685. Redundant Connection II 684
+# 685. Redundant Connection II 684 261
 In this problem, a rooted tree is a  **directed**  graph such that, there is exactly one node (the root) for which all other nodes are descendants of this node, plus every node has exactly one parent, except for the root node which has no parents.
 
 The given input is a directed graph that started as a rooted tree with N nodes (with distinct values 1, 2, ..., N), with one additional directed edge added. The added edge has two different vertices chosen from 1 to N, and was not an edge that already existed.
@@ -38,30 +38,43 @@ v   v
 class Solution {
     public int[] findRedundantDirectedConnection(int[][] edges) {
         int n = edges.length;
-        int[] parent = new int[n+1], ds = new int[n+1];
-        Arrays.fill(parent, -1);
-        int first = -1, second = -1, last = -1;
-        for(int i = 0; i < n; i++) {
-            int p = edges[i][0], c = edges[i][1];
-            if (parent[c] != -1) {
-                first = parent[c];
-                second = i;
-                continue;
-            }
-            parent[c] = i;
-            
-            int p1 = find(ds, p);
-            if (p1 == c) last = i;
-            else ds[c] = p1;
+        int[] out = new int[n+1], id = new int[n+1], sz = new int[n+1];
+        
+        Arrays.fill(out,-1);
+        for(int i = 1; i < id.length; i++) id[i] = i;
+        
+        int doubled = -1, first = -1;
+        for(int i = 0; i < n; i++){
+            if(out[edges[i][1]] != -1) {
+                first = out[edges[i][1]];
+                doubled = i;
+                break;
+            }else out[edges[i][1]] = i;
         }
-
-        if (last == -1) return edges[second]; // no cycle found by removing second
-        if (second == -1) return edges[last]; // no edge removed
-        return edges[first];
+        
+        for(int i = 0; i < n; i++){
+            if(i == doubled) continue;
+            int x = find_root(id, edges[i][0]);
+            int y = find_root(id, edges[i][1]);
+            if(x == y) return first == -1?edges[i]:edges[first];
+            if(sz[x] > sz[y]){
+                id[y] = x;
+            }else{
+                id[x] = y;
+                sz[x] = Math.max(sz[x],sz[y]+1);
+            }
+        }
+        
+        return edges[doubled];
     }
     
-    private int find(int[] ds, int i) {
-        return ds[i] == 0 ? i : (ds[i] = find(ds, ds[i]));
+    public int find_root(int[] id, int p){
+        while(id[p] != p){
+            id[p] = id[id[p]];
+            p = id[p];
+        }
+        return p;
     }
+    
 }
 ```
