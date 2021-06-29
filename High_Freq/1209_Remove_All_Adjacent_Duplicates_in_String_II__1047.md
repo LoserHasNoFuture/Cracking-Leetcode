@@ -30,7 +30,63 @@ Finally delete "ddd", get "aa"
 -   `2 <= k <= 104`
 -   `s`  only contains lower case English letters.
 
-# Solution 1: Using StringBuilder to mock Stack (Beat 43%)
+# Solution 1: Direct Mofidify from 1047 (Takes extremly long because of the inner loop)
+```
+class Solution {
+    public String removeDuplicates(String s, int k) {
+        if(s.length() < k) return s;
+        char[] word = s.toCharArray();
+        int index = k-2;
+        
+        for(int i = k-1; i < word.length; i++){
+            if(index < k-2 || word[i] != word[index]) word[++index] = word[i];
+            else{
+                int cnt = 0;
+                // because of this!!!!!
+                while(index >= cnt && word[i] == word[index-cnt]) cnt++;  
+                if(cnt < k - 1) word[++index] = word[i];
+                else index -= cnt; 
+            }
+        }
+        
+        return (new String(word)).substring(0,index+1);
+    }
+}
+```
+
+# Solution 2: Using Another Array to Count Number of Same Chars (Beat 100%)
+```
+class Solution {
+    public String removeDuplicates(String s, int k) {
+        if(s.length() < k) return s;
+        char[] word = s.toCharArray();
+        int[] cnt = new int[word.length];
+        int index = -1;
+        
+        for(int i = 0; i < word.length; i++){
+            if(index < 0 || word[i] != word[index]){
+                word[++index] = word[i];
+                cnt[index] = 1;
+            }else{
+                cnt[index]++;
+                if(cnt[index] == k) index--;
+            }
+        }
+        
+        StringBuilder sb = new StringBuilder();
+        for(int i = 0; i <= index; i++){
+            while(cnt[i] > 0){
+                sb.append(word[i]);
+                cnt[i]--;
+            }
+        }
+        
+        return sb.toString();
+    }
+}
+```
+
+# Solution 3: Using Stack (Beat 43%)
 ```
 class Solution {
     
@@ -66,25 +122,6 @@ class Solution {
             for(;l.cnt > 0; l.cnt--) sb.append(l.ch+"");
         }
         return sb.toString();
-    }
-}
-```
-
-
-# Solution 2: Using Array to Realize Stack (Beat 100%)
-Refer from: [https://leetcode.com/problems/remove-all-adjacent-duplicates-in-string-ii/discuss/392933/JavaC%2B%2BPython-Two-Pointers-and-Stack-Solution](https://leetcode.com/problems/remove-all-adjacent-duplicates-in-string-ii/discuss/392933/JavaC%2B%2BPython-Two-Pointers-and-Stack-Solution)
-```
-class Solution {
-    
-     public String removeDuplicates(String s, int k) {
-        int i = 0, n = s.length(), count[] = new int[n];
-        char[] stack = s.toCharArray();
-        for (int j = 0; j < n; ++j, ++i) {
-            stack[i] = stack[j];
-            count[i] = i > 0 && stack[i - 1] == stack[j] ? count[i - 1] + 1 : 1;
-            if (count[i] == k) i -= k;
-        }
-        return new String(stack, 0, i);
     }
 }
 ```

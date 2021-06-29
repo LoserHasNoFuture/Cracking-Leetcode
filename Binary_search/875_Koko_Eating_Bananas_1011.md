@@ -32,34 +32,26 @@ Return the minimum integer  `K`  such that she can eat all the bananas within  `
 # Solution: Binary Search
 ```
 class Solution {
-    public int minEatingSpeed(int[] piles, int H) {
-        if(piles.length == 0) return 0;
-        int end = find_max_pile(piles);
-        if(H == piles.length) return end;
+    public int minEatingSpeed(int[] piles, int h) {
+        int end = (int)10e9;
         int start = 1;
-        
         while(start < end){
             int mid = (start + end) >>> 1;
-            if(can_eat_all(piles, mid, H)) end = mid;
+            if(can_finish(piles,h,mid)) end = mid;
             else start = mid + 1;
         }
-        
         return start;
     }
     
-    public boolean can_eat_all(int[] nums, int speed, int count){
-        for(int i = 0; i<nums.length; i++) {
-            count -= nums[i]%speed == 0? nums[i]/speed:nums[i]/speed + 1;
-            if(count < 0) return false;
+    // do not modify piles!!!! try to be as non-intrusive as possible
+    public boolean can_finish(int[] piles, int h, int speed){
+        int cnt = 0;
+        for(int i = 0; i < piles.length; i++){
+            if(cnt > h) return false;
+            cnt += (piles[i] + speed - 1)/speed;
         }
-        return true;
-    }
-    
-    
-    public int find_max_pile(int[] nums){
-        int res = nums[0];
-        for(int i = 1; i < nums.length; i++) res = Math.max(res, nums[i]);
-        return res;
+        
+        return cnt <= h;
     }
 }
 ```
