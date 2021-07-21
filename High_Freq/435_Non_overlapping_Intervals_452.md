@@ -19,6 +19,10 @@ Given a collection of intervals, find the minimum number of intervals you need t
 **Output:** 0
 **Explanation:** You don't need to remove any of the intervals since they're already non-overlapping.
 
+**Example 4:**
+**Input:** [[-19,81],[-18,17],[-9,20],[-8,3],[-7,81],[35,62]]
+**Output:** 4
+
 **Note:**
 
 1.  You may assume the interval's end point is always bigger than its start point.
