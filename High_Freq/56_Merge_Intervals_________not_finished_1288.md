@@ -79,4 +79,9 @@ class Solution {
 
 # Solution 3: FB Interview (Later)
 Constraint: Not using any sort 
-[https://leetcode.com/problems/merge-intervals/discuss/21451/Share-my-BST-interval-tree-solution-C%2B%2B-No-sorting!](https://leetcode.com/problems/merge-intervals/discuss/21451/Share-my-BST-interval-tree-solution-C%2B%2B-No-sorting!)
+
+解法1: 遍历一遍找到最小的开始,最大的结束
+建立一个boolean occupied = booean[max - min + 1], 然后遍历intervals填空...
+最后遍历occupied出结果
+
+解法2: [https://leetcode.com/problems/merge-intervals/discuss/21451/Share-my-BST-interval-tree-solution-C%2B%2B-No-sorting!](https://leetcode.com/problems/merge-intervals/discuss/21451/Share-my-BST-interval-tree-solution-C%2B%2B-No-sorting!)
