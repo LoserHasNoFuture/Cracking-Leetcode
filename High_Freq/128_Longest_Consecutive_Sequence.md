@@ -75,51 +75,31 @@ class Solution {
 }
 ```
 
-# Solution 2: HashSet O(n) Solution (Beat 60%)
+# Solution 2: HashSet O(n) Solution (Beat 65%)
 ```
-class Solution {
+public class Solution {
     public int longestConsecutive(int[] nums) {
-        HashSet<Integer> set = new HashSet<Integer>();
-        
+        if(nums == null || nums.length == 0) return 0;
+
+        Set<Integer> set = new HashSet<Integer>();
+
         for(int num: nums) set.add(num);
-        
-        int res = 0;
-        for(int num: nums){
-            if(!set.contains(num)) continue;
-            set.remove(num);
-            
-            int cnt = cur_to_right(set,num+1);
-            cnt += cur_to_left(set,num-1);
-            
-            res = Math.max(res, cnt+1);
+        int max = 1;
+        for(int num: nums) {
+            if(set.contains(num) && !set.contains(num-1)) {//num hasn't been visited
+                set.remove(num);
+                int val = num+1;
+                int sum = 1;
+                
+                while(set.contains(val)){
+                    set.remove(val++);
+                    sum++;
+                }
+                
+                max = Math.max(sum,max);
+            }
         }
-        
-        return res;
+        return max;
     }
-    
-    public int cur_to_right(HashSet<Integer> set, int cur){
-        int cnt = 0;
-        
-        while(set.contains(cur)){
-            cnt++;
-            set.remove(cur);
-            cur = cur + 1;
-        }
-        
-        return cnt;
-    }
-    
-    public int cur_to_left(HashSet<Integer> set, int cur){
-        int cnt = 0;
-        
-        while(set.contains(cur)){
-            cnt++;
-            set.remove(cur);
-            cur = cur - 1;
-        }
-        
-        return cnt;
-    }
-    
 }
 ```

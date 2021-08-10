@@ -60,14 +60,9 @@ class Solution {
         int pLen = 1, nLen = 1;
         if(left != null){
             if(root.val - root.left.val == 1){
-                if(right != null && root.val - root.right.val == -1) {
-                    max = Math.max(max, left.pLen+1 + right.nLen);
-                }
                 pLen = Math.max(pLen, left.pLen+1);
             }else if (root.val - root.left.val == -1){
-                if(right != null && root.val - root.right.val == 1) {
-                    max = Math.max(max, left.nLen+1 + right.pLen);
-                }
+                
                 nLen = Math.max(nLen, left.nLen+1);
             }   
         }
@@ -80,7 +75,7 @@ class Solution {
             }   
         }
         
-        max = Math.max(Math.max(max, pLen),nLen);
+        max = Math.max(max, pLen+nLen-1);
         
         return new Path(pLen, nLen);
     }
