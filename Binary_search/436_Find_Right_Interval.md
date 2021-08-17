@@ -83,11 +83,6 @@ We calculate score in a similar way. But special trick needs to be used to deal 
 
 The only draw back of this code is that it has the risk of overflow.
 
-Overflow could happens in two situation:
-
-1.  The length of input array is large
-2.  The values in input array is large
-
 See my code below:
 
 ```
@@ -128,4 +123,3 @@ class Solution {
 }
 ```
 
-# Solution 3: Map...

@@ -22,7 +22,7 @@ The couples' initial seating is given by  `row[i]`  being the value of the perso
 1.  `len(row)`  is even and in the range of  `[4, 60]`.
 2.  `row`  is guaranteed to be a permutation of  `0...len(row)-1`.
 
-# Solution 1: 
+# Solution 1: Straight Forward Solution
 ```
 class Solution {
     public int minSwapsCouples(int[] row) {
@@ -57,33 +57,32 @@ class Solution {
 ```
 class Solution {
     public int minSwapsCouples(int[] row) {
-        if(row.length == 0) return 0;
-        int[] id = new int[row.length/2];
-        int[] sz = new int[row.length/2];
-        HashSet<Integer> set = new HashSet<>();
-        for(int i = 0; i < id.length; i++){
-            id[i] = i;
-            set.add(i);
-        } 
+        int n = row.length; 
+        int[] id = new int[n/2], sz = new int[n/2];
+        for(int i = 0; i < n/2; i++) id[i] = i;
         
-        for(int i = 0; i < row.length; i = i+2){
-            int x = find_root(id,row[i]/2);
-            int y = find_root(id,row[i+1]/2);
-            if(x == y) continue;
-            if(sz[x] < sz[y]){
-                id[x] = y;
-                set.remove(x);
-            } else{
-                id[y] = x;
-                set.remove(y);
-                sz[x] = Math.max(sz[x],sz[y]+1);
+        int cnt = 0;
+        for(int i = 0; i < n; i = i+2){
+            if(row[i]/2 == row[i+1]/2) continue;
+            else{
+                int root1 = find_root(id, row[i]/2);
+                int root2 = find_root(id, row[i+1]/2);
+                
+                if(root1 == root2) continue;
+                cnt++;
+                if(sz[root1] > sz[root2]) id[root2] = root1;
+                else{
+                    id[root1] = root2;
+                    sz[root2] = Math.max(sz[root2],sz[root1]+1);
+                }
             }
         }
-        return row.length/2 - set.size();
+        
+        return cnt;
     }
     
     public int find_root(int[] id, int p){
-        while(id[p] != p){
+        while(p != id[p]){
             id[p] = id[id[p]];
             p = id[p];
         }
