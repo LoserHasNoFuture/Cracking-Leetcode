@@ -44,8 +44,44 @@ class Solution {
 ```
 
 # Solution 2: Sorting Start And End Respectively (Beat 99%)
-Refer from: [https://leetcode.com/problems/merge-intervals/discuss/21223/Beat-98-Java.-Sort-start-and-end-respectively.](https://leetcode.com/problems/merge-intervals/discuss/21223/Beat-98-Java.-Sort-start-and-end-respectively.)
-![](https://www.dropbox.com/s/40mmgsb710mqykt/Screenshot%202018-02-09%2018.43.49.png?raw=1)
+```
+class Solution {
+    public int[][] merge(int[][] intervals) {
+        if(intervals.length <= 1) return intervals;
+        List<int[]> arr = new ArrayList<int[]>();
+        int n = intervals.length;
+        int[] start = new int[n], end = new int[n];
+        
+        for(int i = 0; i < n; i++){
+            start[i] = intervals[i][0];
+            end[i] = intervals[i][1];
+        }
+        
+        Arrays.sort(start);
+        Arrays.sort(end);
+        
+        int nextstart = start[0];
+        for(int i = 0; i < n; i++){
+            if(i < n - 1 && end[i] < start[i+1]) {
+                arr.add(new int[]{nextstart, end[i]});
+                nextstart = start[i+1];
+            }
+        }
+        arr.add(new int[]{nextstart, end[n-1]});
+        
+        
+        int[][] res= new int[arr.size()][2];
+        int index = 0;
+        for(int[] meet: arr){
+            res[index++] = meet;
+        }
+        
+        return res;
+    }
+}
+```
+
+Better Coding:
 ```
 class Solution {
     public int[][] merge(int[][] intervals) {

@@ -80,6 +80,7 @@ class Solution {
 ```
 
 # Solution 2: Dynamic Programming 
+from end to start:
 ```
 class Solution {
     
@@ -100,5 +101,33 @@ class Solution {
         return memo[0];
     }
     
+}
+```
+
+From start to end:
+```
+class Solution {
+    public int numDecodings(String s) {
+        int n = s.length();
+        if(n == 0) return 0;
+        int[] dp = new int[n+1];
+        dp[0] = 1;
+        
+        int prev = 0;
+        for(int i = 0; i < n; i++){
+            int num = s.charAt(i) - '0';
+            if(num > 0) dp[i+1] = dp[i];
+            else if(prev == 0) return 0; //'00'
+            
+            if(i > 0){
+                int tmp = prev*10 + num;
+                if(tmp >= 10 && tmp <= 26) dp[i+1] += dp[i-1];
+            }
+            prev = num;
+        }
+        
+        
+        return dp[n];
+    }
 }
 ```
