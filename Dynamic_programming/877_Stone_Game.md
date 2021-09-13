@@ -79,6 +79,8 @@ class Solution {
 ```
 
 # Solution 2: Tricky Solution
+This solution can be only applied to the case when there are even number of piles.
+
 Refer from the same link.
 ```
 class Solution {

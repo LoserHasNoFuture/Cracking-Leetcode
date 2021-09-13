@@ -60,15 +60,14 @@ class Solution {
         Arrays.sort(start);
         Arrays.sort(end);
         
-        int nextstart = start[0];
-        for(int i = 0; i < n; i++){
-            if(i < n - 1 && end[i] < start[i+1]) {
-                arr.add(new int[]{nextstart, end[i]});
-                nextstart = start[i+1];
+        int l = start[0];
+        for(int i = 1; i < n; i++){
+            if(start[i] > end[i-1] ) {
+                arr.add(new int[]{l,end[i-1]});
+                l = start[i];
             }
         }
-        arr.add(new int[]{nextstart, end[n-1]});
-        
+        arr.add(new int[]{l,end[n-1]});
         
         int[][] res= new int[arr.size()][2];
         int index = 0;

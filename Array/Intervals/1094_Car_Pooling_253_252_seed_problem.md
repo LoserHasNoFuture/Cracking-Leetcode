@@ -88,17 +88,75 @@ class Solution {
 }
 ```
 
-# Solution 3: Improve from Solution 2, using bucket sort O(n)
+```
+// see illustration in 253. meeting rooms II
+class Solution {
+    public boolean carPooling(int[][] trips, int capacity) {
+        int cnt = 0, n = trips.length, index = 0;
+        int[][] start = new int[n][2], end = new int[n][2];
+        for(int[] trip: trips){
+            start[index] = new int[]{trip[1],trip[0]};
+            end[index++] = new int[]{trip[2],-trip[0]};
+        }
+        Arrays.sort(start,(a,b)->(a[0]-b[0]));
+        Arrays.sort(end,(a,b)->(a[0]-b[0]));
+        
+        int endIndex = 0;
+        for(int i = 0; i < n; i++){
+            while(endIndex < n && start[i][0] >= end[endIndex][0]){
+                cnt += end[endIndex][1];
+                endIndex++;
+            }
+            cnt += start[i][1];
+            if(cnt > capacity) return false;
+        }
+
+        return true;
+    }
+}
+```
+
+
+# Solution 4: Sweeping Line O(nlogn)
 ```
 class Solution {
-    public boolean carPooling(int[][] trips, int capacity) {    
-        int[] stops = new int[1001]; 
-        for (int[] trip : trips) {
-          stops[trip[1]] += trip[0];
-          stops[trip[2]] -= trip[0];
+    public boolean carPooling(int[][] trips, int capacity) {
+        int cnt = 0, n = trips.length, index = 0;
+        int[][] nums = new int[n*2][2];
+        for(int[] trip:trips){
+            nums[index++] = new int[]{trip[1], trip[0]};
+            nums[index++] = new int[]{trip[2], -trip[0]};
         }
-        for (int i = 0; capacity >= 0 && i < 1001; ++i) capacity -= stops[i];
-        return capacity >= 0;
+        
+        // can use bucket sort -> lead to solution 2
+        Arrays.sort(nums, (a,b)->(a[0]==b[0]?a[1]-b[1]:a[0]-b[0]));
+        
+        for(int[] num:nums){
+            cnt += num[1];
+            if(cnt > capacity) return false;
+        }
+        
+        return true;
+    }
+}
+```
+
+```
+class Solution {
+    public boolean carPooling(int[][] trips, int capacity) {
+        int cnt = 0, n = trips.length;
+        int[] bucket = new int[1001];
+        for(int[] trip:trips){
+            bucket[trip[1]] += trip[0];
+            bucket[trip[2]] -= trip[0];
+        }
+        
+        for(int i = 0; i < 1001; i++){
+            cnt += bucket[i];
+            if(cnt > capacity) return false;
+        }
+
+        return true;
     }
 }
 ```

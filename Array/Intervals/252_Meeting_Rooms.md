@@ -57,3 +57,26 @@ class Solution {
     }
 }
 ```
+
+# Solution 3: Sweeping Line O(nlogn)
+```
+class Solution {
+    public boolean canAttendMeetings(int[][] intervals) {
+        if(intervals.length <= 1) return true;
+        int n = intervals.length, index = 0, cnt = 0;
+        int[][] nums = new int[n*2][2];
+        for(int[] cur: intervals){
+            nums[index++] = new int[]{cur[0],1};
+            nums[index++] = new int[]{cur[1],-1};
+        }
+        Arrays.sort(nums, (a,b)->(a[0]==b[0]?a[1]-b[1]:a[0]-b[0]));
+        
+        for(int[] num: nums){
+            cnt += num[1];
+            if(cnt > 1) return false;
+        }
+        
+        return true;
+    }
+}
+```
