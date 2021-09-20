@@ -38,7 +38,7 @@ After doing so, return  _the number of remaining intervals_.
 -   `0 <= intervals[i][0] < intervals[i][1] <= 10^5`
 -   All the intervals are  **unique**.
 
-# Solution 1: Sort Start Time (Beat 96%)
+# Solution 1: Sort Start Time and End Time (Beat 96%)
 ```
 class Solution {
     public int removeCoveredIntervals(int[][] intervals) {

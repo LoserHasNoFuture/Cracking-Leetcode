@@ -36,6 +36,14 @@ class Solution {
 # Solution 2: Sort Start & End Seperately (Beat 100%)
 ```
 class Solution {
+        // [[2,15],[36,45],[9,29],[16,23],[4,9]]
+        // start:  2 4 9 16 36
+        // end: 9 15 23 29 45
+        // start  end   rooms  endIndex
+        //   2  <  9    0->1      0
+        //   4  <  9    1->2      0
+        //   16 >= 9     2       0->1
+        //   36 >= 15    2       1->2
     public int minMeetingRooms(int[][] intervals) {
         int n = intervals.length, index = 0, rooms = 0;
         int[] start = new int[n], end = new int[n];
@@ -53,16 +61,6 @@ class Solution {
         }
         
         return rooms;
-        
-        
-        // [[2,15],[36,45],[9,29],[16,23],[4,9]]
-        // start:  2 4 9 16 36
-        // end: 9 15 23 29 45
-        // start  end   rooms  endIndex
-        //   2  <  9    0->1      0
-        //   4  <  9    1->2      0
-        //   16 >= 9     2       0->1
-        //   36 >= 15    2       1->2
     }
 }
 ```

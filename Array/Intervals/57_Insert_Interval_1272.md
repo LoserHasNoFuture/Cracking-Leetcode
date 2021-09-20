@@ -71,3 +71,33 @@ class Solution {
     }
 }
 ```
+
+Better coding:
+```
+class Solution {
+    public int[][] insert(int[][] intervals, int[] newInterval) {
+        List<int[]> arr = new ArrayList<int[]>();
+        
+        for(int[] cur: intervals){
+            if(newInterval == null || cur[1] < newInterval[0]) arr.add(cur);
+            else if(cur[0] > newInterval[1]){
+                arr.add(newInterval);
+                newInterval = null;
+                arr.add(cur);
+            }else{
+                newInterval[0] = Math.min(cur[0], newInterval[0]);
+                newInterval[1] = Math.max(cur[1], newInterval[1]);
+            }
+        }
+        if(newInterval != null) arr.add(newInterval);
+        
+        int index = 0;
+        int[][] res = new int[arr.size()][2];
+        for(int[] nums:arr){
+            res[index++] = nums;
+        }
+        
+        return res;
+    }
+}
+```

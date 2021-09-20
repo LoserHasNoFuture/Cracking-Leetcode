@@ -125,3 +125,29 @@ class Solution {
     }
 }
 ```
+
+# Solutio 4: Using Array to mock Stack
+```
+class Solution {
+    public String removeDuplicates(String s, int k) {
+        int n = s.length(), index = -1;
+        int[][] stack = new int[n][2];
+        
+        for(int i = 0; i < n; i++){
+            if(index >= 0 && s.charAt(stack[index][0]) == s.charAt(i)){
+                stack[index][1]++;
+                if(stack[index][1] == k) index--;
+            }else stack[++index] = new int[]{i,1};
+        }
+        
+        StringBuilder sb = new StringBuilder();
+        for(int i = 0; i <= index; i++){
+            while(stack[i][1]-- > 0){
+                sb.append(s.charAt(stack[i][0]));
+            }
+        }
+        
+        return sb.toString();
+    }
+}
+```
