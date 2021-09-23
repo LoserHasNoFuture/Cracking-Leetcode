@@ -40,31 +40,90 @@ Formally, a  _parentheses string_  is valid if and only if:
 ```
 class Solution {
     public String minRemoveToMakeValid(String s) {
-        StringBuilder sb = new StringBuilder();
-        Deque<Integer> stack = new ArrayDeque<>();
+        int n = s.length(), index = -1;
+        int[] stack = new int[n];
         
-        int start = 0, len = s.length();
-        for(int i = 0; i < len; i++){
+        for(int i = 0; i < n; i++){
             char c = s.charAt(i);
-            if(c == '(') stack.push(i);
+            if(c != '(' && c != ')') continue;
+            if(c == ')' && index >= 0 && s.charAt(stack[index]) == '(') index--;
+            else stack[++index] = i;
+        }
+        
+        StringBuilder sb = new StringBuilder();
+        int j = 0;
+        for(int i = 0; i < n; i++){
+            if(j <= index && stack[j] == i) j++;
+            else sb.append(s.charAt(i));
+        }
+        
+        return sb.toString();
+    }
+}
+```
+
+# Solution 2: O(n) Space and O(n) Time
+```
+class Solution {
+    public String minRemoveToMakeValid(String s) {
+        int n = s.length(), open = 0, close = 0;
+        StringBuilder sb = new StringBuilder();
+        
+        for(int i = 0; i < n; i++){
+            char c = s.charAt(i);
+            if(c == '(') open++;
             else if(c == ')'){
-                if(stack.isEmpty()) {
-                    sb.append(s.substring(start,i));
-                    start = i + 1;
-                }else stack.pop();
+                if(open == 0) continue;
+                open--;
             }
+            sb.append(c);
         }
         
-        LinkedList<Integer> li = new LinkedList<Integer>();
-        while(!stack.isEmpty()) li.add(0,stack.pop());
-        
-        for(int pos: li){
-            if(start >= len) break;
-            sb.append(s.substring(start,pos));
-            start = pos+1;
+        s = sb.toString();
+        sb.setLength(0);
+        for(int i = s.length()-1; i >= 0; i--){
+            char c = s.charAt(i);
+            if(c == ')') close++;
+            else if(c == '('){
+                if(close == 0) continue;
+                close--;
+            }
+            sb.append(c);
         }
         
-        if(start < len) sb.append(s.substring(start,len));
+        return sb.reverse().toString();
+    }
+}
+```
+
+# Solution 3: Evolve from Solution 2, Using O(1) Space
+```
+class Solution {
+    public String minRemoveToMakeValid(String s) {
+        int n = s.length(), open = 0, close = 0;
+        StringBuilder sb = new StringBuilder();
+        
+        for(int i = 0; i < n; i++){
+            char c = s.charAt(i);
+            if(c == ')') close++;
+        }
+        
+        for(int i = 0; i < n; i++){
+            char c = s.charAt(i);
+            if(c == '('){
+                if(close > 0){
+                    open++;
+                    close--;
+                }else continue;
+            }else if(c == ')'){
+                if(open > 0) open--;
+                else {
+                    close--;
+                    continue;
+                }
+            }
+            sb.append(c);
+        }
         
         return sb.toString();
     }
