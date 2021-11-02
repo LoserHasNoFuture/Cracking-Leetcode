@@ -71,23 +71,24 @@ class Solution {
 ```
 
 # Solution 3: Monotonic Decreasing Stack O(n) Space, O(n) Time
+Key: When the height is going down, they can not save water.
+Only when the height starts to increase, it starts to preserve water.
 ```
 class Solution {
     public int trap(int[] height) {
-        int n = height.length, index = -1, i = 0, res = 0;
+        int n = height.length, index = -1, res = 0;
         int[] stack = new int[n];
         
-        while(i < n){
-            if(index < 0 || height[stack[index]] >= height[i]){
-                stack[++index] = i++;
-            }else{
-                int cur = stack[index--];
-                int water = index < 0? 0: 
-                    (Math.min(height[stack[index]], height[i])-height[cur])*(i-stack[index]-1);
-                res += water;
+        for(int i = 0; i < n; i++){
+            int num = height[i];
+            while(index >= 0 && height[stack[index]] < num){
+                int bottom = height[stack[index--]];
+                int width = index >= 0? i - stack[index] - 1:0;
+                res += width * (Math.min(num, index >= 0? height[stack[index]]:0) -bottom);
             }
+            stack[++index] = i;
         }
-
+        
         return res;
     }
 }
