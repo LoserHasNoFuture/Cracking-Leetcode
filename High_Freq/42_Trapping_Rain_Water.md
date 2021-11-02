@@ -69,3 +69,26 @@ class Solution {
     }
 }
 ```
+
+# Solution 3: Monotonic Decreasing Stack O(n) Space, O(n) Time
+```
+class Solution {
+    public int trap(int[] height) {
+        int n = height.length, index = -1, i = 0, res = 0;
+        int[] stack = new int[n];
+        
+        while(i < n){
+            if(index < 0 || height[stack[index]] >= height[i]){
+                stack[++index] = i++;
+            }else{
+                int cur = stack[index--];
+                int water = index < 0? 0: 
+                    (Math.min(height[stack[index]], height[i])-height[cur])*(i-stack[index]-1);
+                res += water;
+            }
+        }
+
+        return res;
+    }
+}
+```
