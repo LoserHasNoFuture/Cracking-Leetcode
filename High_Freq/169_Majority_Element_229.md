@@ -33,15 +33,29 @@ Refer: [https://leetcode.com/problems/majority-element/discuss/51613/O(n)-time-O
 ```
 class Solution {
     public int majorityElement(int[] nums) {
-        int cnt = 1, num = nums[0];
+        int cur = 0, cnt = 0;
         
-        for(int i = 1; i < nums.length; i++){
-            if(cnt == 0) num = nums[i];
-            if(nums[i] == num) cnt++;
+        for(int num: nums){
+            if(cnt == 0) cur = num;
+            if(cur == num) cnt++;
             else cnt--;
         }
         
-        return num;
+        return cur;
     }
 }
 ```
+
+# Solution 3: Sort and Get the Middle One (Beat 100%)
+```
+class Solution {
+    public int majorityElement(int[] nums) {
+        Arrays.sort(nums);
+        int n = nums.length;
+        return nums[n/2];
+    }
+}
+```
+
+# Solution 4: Divide and Conquer.  Find the n/2-th smallest element
+Quick selection.
