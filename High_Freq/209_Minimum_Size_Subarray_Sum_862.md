@@ -11,7 +11,7 @@ Given an array of  **n**  positive integers and a positive integer  **s**, find 
 
 If you have figured out the  _O_(_n_) solution, try coding another solution of which the time complexity is  _O_(_n_  log  _n_).
 
-# Solution 1: Two Pointers O(n)
+# Solution 1: Sliding Window O(n)
 ```
 class Solution {
     public int minSubArrayLen(int s, int[] nums) {
