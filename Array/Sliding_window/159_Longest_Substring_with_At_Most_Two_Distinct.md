@@ -19,6 +19,7 @@ class Solution {
     public int lengthOfLongestSubstringTwoDistinct(String s) {
         if(s.length() <= 2) return s.length();
         
+        // key: character, value: last position
         HashMap<Character,Integer> map = new HashMap<Character,Integer>();
         
         int start = 0; int end = 0; int max = 0;

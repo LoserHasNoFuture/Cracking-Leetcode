@@ -127,3 +127,66 @@ class Solution {
     }
 }
 ```
+
+Better Coding:
+```
+class Solution {
+    public String alienOrder(String[] words) {
+        HashSet<Character> set = new HashSet<Character>();
+        StringBuilder sb = new StringBuilder();
+        boolean[][] graph = new boolean[26][26];
+        int[] in_degree = new int[26];
+        
+        if(words.length == 1){
+            for(char c: words[0].toCharArray()) set.add(c);
+        }
+        
+//         add relationship
+        for(int i = 0; i < words.length - 1; i++){
+            char[] word1 = words[i].toCharArray();
+            char[] word2 = words[i+1].toCharArray();
+            
+            int j = 0;
+            while(j < word1.length && j < word2.length && word1[j] == word2[j]){
+                set.add(word1[j++]);
+            }
+            
+            if(j < word1.length && j == word2.length) return "";
+            if(j < word1.length && j < word2.length && !graph[word1[j]-'a'][word2[j]-'a']){
+                graph[word1[j]-'a'][word2[j]-'a'] = true;
+                in_degree[word2[j]-'a']++;
+            }
+            
+            int tmpj = j;
+            while(j < word1.length) set.add(word1[j++]);
+            j = tmpj;
+            while(j < word2.length) set.add(word2[j++]);
+        }
+        
+//         Topology sort: find the elements that in_degree equals to 0;
+        while(!set.isEmpty()){
+            char c = '0';
+            int index = -1;
+            for(int i = 0; i < 26; i++){
+                if(in_degree[i] == 0 && set.contains((char)(i+'a'))){
+                    c = (char)(i+'a');
+                    index = i;
+                    set.remove(c);
+                    break;
+                }
+            }
+            if(index == -1) return "";
+            sb.append(c);
+            for(int i = 0; i < 26; i++){
+                if(graph[index][i]){
+                    graph[index][i] = false;
+                    in_degree[i]--;
+                }
+            }
+        }
+        
+        
+        return sb.toString();
+    }
+}
+```

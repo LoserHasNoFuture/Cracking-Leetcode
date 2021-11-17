@@ -55,3 +55,30 @@ class Solution {
     }
 }
 ```
+
+Better Coding Skills:
+```
+class Solution {
+    public int lengthOfLongestSubstring(String s) {
+        int[] pos = new int[256];
+        int left = 0, right = 0, max = 0;
+        Arrays.fill(pos,-1);
+        
+        while(right < s.length()){
+            char c = s.charAt(right);
+            if(pos[c] >= left){
+                max = Math.max(max, right-left);
+                left = pos[c] + 1;
+            }
+            pos[c] = right;
+            right++;
+        }
+        max = Math.max(max, right-left);
+       
+        
+        return max;
+    }
+}
+
+
+```
