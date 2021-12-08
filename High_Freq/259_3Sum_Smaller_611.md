@@ -28,24 +28,33 @@ Given an array of  `n`  integers  `nums`  and an integer `target`, find the numb
 
 # Solution: O(n^2) 
 ```
-public class Solution {
+class Solution {
+    int res = 0, n = 0, r = 0;
     public int threeSumSmaller(int[] nums, int target) {
-        int result = 0;
+        if(nums.length < 3) return 0;
         Arrays.sort(nums);
-        for(int i = 0; i <= nums.length-3; i++) {
-            int lo = i+1;
-            int hi = nums.length-1;
-            while(lo < hi) {
-            // key!!!!
-                if(nums[i] + nums[lo] + nums[hi] < target) {
-                    result += hi - lo;
-                    lo++;
-                } else {
-                    hi--;
-                }
+        
+        n = nums.length; r = n - 1;
+        for(int i = 0; i < n-2; i++){
+            two_sum(nums, i + 1, n - 1, target-nums[i]);
+        }
+        
+        return res;
+    }
+    
+    public void two_sum(int[] nums, int left, int right, int target){
+        right = r; r = 0;
+        
+        while(left < right){
+            if(nums[left] + nums[right] >= target) right--;
+            else {
+                r = Math.max(r, right);
+                res += right - left;
+                left++;
             }
         }
-        return result;
+        
     }
 }
 ```
+
