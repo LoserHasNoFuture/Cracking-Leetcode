@@ -50,6 +50,7 @@ class Solution {
                 else cur = cur.next;
             }
             
+            // 绕了一圈都没有找到插入的位置
             if(cur == head) break;
         }
         
