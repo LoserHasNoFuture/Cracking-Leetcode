@@ -24,8 +24,10 @@ Given two integer arrays  `inorder`  and  `postorder`  where  `inorder`  is the 
 -   `postorder`  is  **guaranteed**  to be the postorder traversal of the tree.
 
 # Solution 1: Hashmap 
-use hashmap to record the position of each element in inorder
-O(n) Space
+```
+
+```
+
 
 # Solution 2: O(1) Space 
 ```

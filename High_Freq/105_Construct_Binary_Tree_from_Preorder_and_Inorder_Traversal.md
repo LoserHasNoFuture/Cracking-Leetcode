@@ -17,29 +17,30 @@ Return the following binary tree:
     /  \
    15   7
 ```
-# Solution 1: DFS Recursion
+# Solution 1: HashMap + DFS Recursion
 ```
 class Solution {
+    HashMap<Integer, Integer> in_map = new HashMap<Integer,Integer>();
     int index = 0;
-    HashMap<Integer,Integer> map = new HashMap<>();
-    public TreeNode buildTree(int[] preorder, int[] inorder) {
-        for(int i = 0; i < inorder.length; i++) map.put(inorder[i],i);
-        return buildTree(preorder,inorder,0,inorder.length -1);
+    public TreeNode buildTree(int[] inorder, int[] postorder) {
+        for(int i = 0; i < inorder.length; i++) in_map.put(inorder[i],i);
+        index = postorder.length - 1;
+        return helper(inorder, postorder, 0, inorder.length - 1);
     }
     
-    public TreeNode buildTree(int[] preorder, int[] inorder, int inStart, int inEnd){
-        if(index == preorder.length || inStart > inEnd) return null;
+    public TreeNode helper(int[] inorder, int[] postorder, int inL, int inR){
+        if(index < 0 || inL > inR) return null;
+        TreeNode root = new TreeNode(postorder[index--]);
+        int pos =  in_map.get(root.val);
+        root.right = helper(inorder, postorder, pos+1, inR);
+        root.left = helper(inorder, postorder, inL, pos -1);
         
-        TreeNode root = new TreeNode(preorder[index++]);
-        int pos = map.get(root.val);
-        root.left = buildTree(preorder, inorder, inStart, pos-1);
-        root.right = buildTree(preorder, inorder, pos+1,inEnd);
         return root;
     }
 }
 ```
 
-# Solution 2: Iteration
+# Solution 2: Map + Iteration
 ```
 class Solution {
     public TreeNode buildTree(int[] preorder, int[] inorder) {
@@ -66,3 +67,27 @@ class Solution {
     }
 }
 ```
+
+# Solution 3: O(1) extra Space Recursion
+```
+class Solution {
+    private int pre = 0, in = 0, n = 0;
+    
+    public TreeNode buildTree(int[] preorder, int[] inorder) {
+        n = preorder.length;
+        return dfs(preorder, inorder, Integer.MIN_VALUE);
+    }
+    
+    public TreeNode dfs(int[] preorder, int[] inorder, int stop){
+        if(pre == n || in == n) return null;
+        if(inorder[in] == stop) {
+            in++;
+            return null;
+        }
+        TreeNode root = new TreeNode(preorder[pre++]);
+        root.left = dfs(preorder, inorder, root.val);
+        root.right = dfs(preorder, inorder, stop); 
+        return root;
+    }
+}
+``` 
