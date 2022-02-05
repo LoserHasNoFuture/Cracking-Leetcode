@@ -106,3 +106,37 @@ class Solution {
     }
 }
 ```
+
+# Solution 3: HashMap
+```
+class Solution {
+    
+    HashMap<Integer, Integer> pre_map = new HashMap<Integer,Integer>();
+    HashMap<Integer, Integer> post_map = new HashMap<Integer,Integer>();
+    int[] glpre,glpost;
+    public TreeNode constructFromPrePost(int[] pre, int[] post) {
+        if(pre.length == 0 || pre.length != post.length) return null;
+        for(int i = 0; i < pre.length; i++){
+            pre_map.put(pre[i],i);
+            post_map.put(post[i],i);
+        }
+        glpre = pre;
+        glpost = post;
+        return helper(0,pre.length -1,0,post.length -1);
+    }
+    
+    public TreeNode helper(int preL, int preR, int postL, int postR){
+        if(preL > preR || postL > postR) return null;
+        TreeNode root = new TreeNode(glpre[preL]);
+        preL++;
+        if(preL <= preR){
+            int temp_postR = post_map.get(glpre[preL]);
+            int temp_preR = (temp_postR-postL) + preL;
+            root.left = helper(preL,temp_preR,postL,temp_postR);
+            root.right = helper(temp_preR + 1,preR,temp_postR+1,postR);
+        }
+              
+        return root;
+    }
+}
+```

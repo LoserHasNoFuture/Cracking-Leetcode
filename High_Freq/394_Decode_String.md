@@ -34,7 +34,7 @@ Furthermore, you may assume that the original data does not contain any digits a
 -   `s`  is guaranteed to be  **a valid**  input.
 -   All the integers in  `s`  are in the range  `[1, 300]`.
 
-# Solution:
+# Solution 1: Recursion
 ```
 class Solution {
     int index = 0;
@@ -57,5 +57,45 @@ class Solution {
     }
     
     
+}
+```
+
+# Solution 2: Iterative, Use Stack
+需要两个stack, 分别记录前面的数字和字符串
+```
+public class Solution {
+    public String decodeString(String s) {
+        StringBuilder res = new StringBuilder();
+        Stack<Integer> countStack = new Stack<>();
+        Stack<String> resStack = new Stack<>();
+        int idx = 0;
+        while (idx < s.length()) {
+            if (Character.isDigit(s.charAt(idx))) {
+                int count = 0;
+                while (Character.isDigit(s.charAt(idx))) {
+                    count = 10 * count + (s.charAt(idx) - '0');
+                    idx++;
+                }
+                countStack.push(count);
+            }else if (s.charAt(idx) == '[') {
+                resStack.push(res.toString());
+                res = new StringBuilder();
+                idx++;
+            }
+            else if (s.charAt(idx) == ']') {
+                StringBuilder temp = new StringBuilder (resStack.pop());
+                int repeatTimes = countStack.pop();
+                for (int i = 0; i < repeatTimes; i++) {
+                    temp.append(res.toString());
+                }
+                res = temp;
+                idx++;
+            }
+            else {
+                res.append(s.charAt(idx++));
+            }
+        }
+        return res.toString();
+    }
 }
 ```
